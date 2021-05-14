@@ -127,7 +127,11 @@ def get_display_name(name):
 def get_executable():
     """Get the python executable path"""
     base_path = os.getenv(CONDA_PREFIX, os.getenv(VIRTUAL_ENV_VAR))
-    return os.path.join(base_path, 'bin', 'python')
+    exec_windows = os.path.join(base_path, 'python')  # Windows uses different default path.
+    exec_other = os.path.join(base_path, 'bin', 'python')
+    if os.path.exists(f"{exec_windows}.exe"):
+        return exec_windows
+    return exec_other
 
 
 def get_env(path):
